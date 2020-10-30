@@ -19,7 +19,10 @@ export function signUp({ email, password }) {
     Auth.signUp(email, password).then(
       () => dispatch({ type: SIGNUP_SUCCESS, payload: { email } }),
       err =>
-        dispatch({ type: SIGNUP_FAILURE, error: translateCognitoError(err) })
+        dispatch({
+          type: SIGNUP_FAILURE,
+          error: translateCognitoError(err)
+        })
     )
   }
 }
@@ -34,7 +37,10 @@ export function logIn({ email, password }) {
     Auth.signIn(email, password).then(
       () => dispatch({ type: LOGIN_SUCCESS }),
       err =>
-        dispatch({ type: LOGIN_FAILURE, error: translateCognitoError(err) })
+        dispatch({
+          type: LOGIN_FAILURE,
+          error: translateCognitoError(err)
+        })
     )
   }
 }
@@ -76,7 +82,10 @@ export function confirmSignup(email, confirmationCode) {
       () => dispatch({ type: SIGNUP_CONFIRM_SUCCESS, payload: { email } }),
       err =>
         dispatch(
-          { type: SIGNUP_CONFIRM_FAILURE, error: translateCognitoError(err) },
+          {
+            type: SIGNUP_CONFIRM_FAILURE,
+            error: translateCognitoError(err)
+          },
           console.log({ email, confirmationCode })
         )
     )
@@ -95,6 +104,24 @@ export function resendConfirmationCode(email) {
       err =>
         dispatch({
           type: RESEND_CODE_FAILURE,
+          error: translateCognitoError(err)
+        })
+    )
+  }
+}
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST'
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
+export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE'
+
+export function forgotPassword(email) {
+  return function(dispatch) {
+    dispatch({ type: RESET_PASSWORD_REQUEST })
+    Auth.forgotPassword(email).then(
+      () => dispatch({ type: RESET_PASSWORD_SUCCESS }),
+      err =>
+        dispatch({
+          type: RESET_PASSWORD_FAILURE,
           error: translateCognitoError(err)
         })
     )

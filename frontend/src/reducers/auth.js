@@ -14,7 +14,10 @@ import {
   RESEND_CODE_REQUEST,
   RESEND_CODE_SUCCESS,
   SET_PRE_AUTHENTICATED_PATH,
-  RESEND_CODE_FAILURE
+  RESEND_CODE_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE
 } from '../actions/auth'
 import * as errors from '../errors'
 
@@ -135,6 +138,30 @@ export default (state = defaultState, { type, meta, payload, error }) => {
         resendingCode: false,
         resendError: error,
         codeSent: false
+      }
+
+    case RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        resetRequested: true,
+        resetError: null,
+        resetRequestSent: false
+      }
+
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        resetRequested: false,
+        resetError: null,
+        resetRequestSent: true
+      }
+
+    case RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        resetRequested: false,
+        resetError: error,
+        resetRequesSent: false
       }
 
     default:
